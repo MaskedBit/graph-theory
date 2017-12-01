@@ -169,3 +169,6 @@ $RECYCLE.BIN/
 .DS_Store
 # Python files
 *.pyc
+
+# Maven cruft
+dependency-reduced-pom.xml
