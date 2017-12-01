@@ -45,7 +45,7 @@ public class PlotController implements ActionListener
 
 	public void setAlgorithmChoice(AlgorithmChoice algorithmChoice)
 	{
-		LOGGER.debug("setAlgorithmChoice(%s)", algorithmChoice.getLabel());
+		LOGGER.trace("setAlgorithmChoice(%s)", algorithmChoice.getLabel());
 
 		if (algorithmChoice != this.algorithmChoice)
 		{
@@ -57,7 +57,7 @@ public class PlotController implements ActionListener
 
 	private void setAlgorithm(AlgorithmChoice algorithmChoice)
 	{
-		LOGGER.debug("setAlgorithm(%s)", algorithm.toString());
+		LOGGER.trace("setAlgorithm(%s)", algorithm.toString());
 
 		switch (algorithmChoice)
 		{
@@ -78,7 +78,7 @@ public class PlotController implements ActionListener
 
 	public void setGraph(VisualGraph graph)
 	{
-		LOGGER.debug("setGraph(%s)", graph.toString());
+		LOGGER.trace("setGraph(%s)", graph.toString());
 
 		if (graph != this.graph)
 		{
@@ -97,7 +97,7 @@ public class PlotController implements ActionListener
 
 	public void setFramesPerSecond(int framesPerSecond)
 	{
-		LOGGER.debug("setFramesPerSecond(%d)", framesPerSecond);
+		LOGGER.trace("setFramesPerSecond(%d)", framesPerSecond);
 
 		this.framesPerSecond = framesPerSecond;
 
@@ -113,14 +113,14 @@ public class PlotController implements ActionListener
 
 	public void stop()
 	{
-		LOGGER.debug("stop()");
+		LOGGER.trace("stop()");
 
 		timer.stop();
 	}
 
 	public void step()
 	{
-		LOGGER.debug("step()");
+		LOGGER.trace("step()");
 
 		AlgorithmState state = algorithm.step();
 		graph.repaint();
@@ -144,7 +144,7 @@ public class PlotController implements ActionListener
 
 	public void run()
 	{
-		LOGGER.debug("run()");
+		LOGGER.trace("run()");
 
 		if (state == AlgorithmState.CONTINUE)
 		{
@@ -154,7 +154,7 @@ public class PlotController implements ActionListener
 
 	public void restart()
 	{
-		LOGGER.debug("restart()");
+		LOGGER.trace("restart()");
 
 		stop();
 		graph.reset();
