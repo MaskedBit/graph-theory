@@ -23,7 +23,8 @@ public class VisualNode implements Node
 
 	private NodeState state = NodeState.UNKNOWN;
 	private NodeCondition condition = NodeCondition.NORMAL;
-	private double distance = Double.MAX_VALUE;
+	private double score = Double.MAX_VALUE;
+	private double estimate = Double.MAX_VALUE;
 	private VisualNode previous = null;
 	private int x = 0;
 	private int y = 0;
@@ -59,14 +60,24 @@ public class VisualNode implements Node
 		this.state = state;
 	}
 
-	public double getDistance()
+	public double getScore()
 	{
-		return (distance);
+		return (score);
 	}
 
-	public void setDistance(double dist)
+	public void setScore(double score)
 	{
-		this.distance = dist;
+		this.score = score;
+	}
+
+	public double getEstimate()
+	{
+		return (estimate);
+	}
+
+	public void setEstimate(double estimate)
+	{
+		this.estimate = estimate;
 	}
 
 	public Node getPrevious()
@@ -172,8 +183,8 @@ public class VisualNode implements Node
 
 	public String details()
 	{
-		return (String.format("%s - state=%s, condition=%s, distance=%g, previous=%s",
-				toString(), state.toString(), condition.toString(), distance, ((previous != null) ? previous.toString() : "- none -")));
+		return (String.format("%s - state=%s, condition=%s, score=%g, previous=%s",
+				toString(), state.toString(), condition.toString(), score, ((previous != null) ? previous.toString() : "- none -")));
 	}
 
 }

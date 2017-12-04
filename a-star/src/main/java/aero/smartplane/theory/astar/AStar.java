@@ -1,4 +1,4 @@
-package aero.smartplane.theory.dijkstra;
+package aero.smartplane.theory.astar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,14 +10,25 @@ import aero.smartplane.theory.graphs.Algorithm;
 import aero.smartplane.theory.graphs.AlgorithmState;
 import aero.smartplane.theory.graphs.CostFunction;
 import aero.smartplane.theory.graphs.Graph;
+import aero.smartplane.theory.graphs.Heuristic;
 import aero.smartplane.theory.graphs.Node;
 import aero.smartplane.theory.graphs.NodeState;
 
-public class Dijkstra implements Algorithm
+/**
+ * Object-oriented implementation of A* algorithm.
+ * 
+ * Implementation notes:
+ * 1)  closedSet is implemented as Node.state value VISITED
+ * 2)  openSet is implemented with a Java PriorityQueue
+ * 
+ * @author Steve
+ *
+ */
+public class AStar implements Algorithm
 {
 	private static final int INITIAL_SIZE = 101;
 
-	private final PriorityQueue<Node> queue = new PriorityQueue<Node>(INITIAL_SIZE, new Comparator<Node>()
+	private final PriorityQueue<Node> openSet = new PriorityQueue<Node>(INITIAL_SIZE, new Comparator<Node>()
 			{
 
 				@Override
@@ -31,76 +42,80 @@ public class Dijkstra implements Algorithm
 	private final Node start;
 	private final Node destination;
 	private final CostFunction cost;
+	private final Heuristic heuristic;
 
-	public Dijkstra(Graph graph, Node start, Node destination, CostFunction cost)
+	public AStar(Graph graph, Node start, Node destination, CostFunction cost, Heuristic heuristic)
 	{
 		this.graph = graph;
-		this.queue.add(start);
+		this.openSet.add(start);
 		this.start = start;
 		this.destination = destination;
 		this.cost = cost;
+		this.heuristic = heuristic;
 
-		start.setScore(0.0);
+		start.setScore(heuristic.estimate(start, destination));
+		start.setEstimate(0.0);
 		start.setPrevious(null);
 	}
 
-	/**
-	 * Effectively Uniform Cost Search
-	 */
 	@Override
 	public AlgorithmState step()
 	{
-		Node cur = queue.poll();
+		Node current = openSet.poll();
 
-		if (cur == null)
+		if (current == null)
 		{
 			return (AlgorithmState.FAIL);
 		}
 
-		cur.setState(NodeState.VISITED);
-		
-		if (cur.equals(destination))
+		current.setState(NodeState.VISITED);
+
+		if (current.equals(destination))
 		{
 			return (AlgorithmState.SUCCESS);
 		}
 
-		for (Node next : graph.getNeighbors(cur))
+		for (Node next : graph.getNeighbors(current))
 		{
 			if (next.getState() != NodeState.VISITED)
 			{
 				next.setState(NodeState.FRONTIER);
-			}
 
-			double measure = cur.getScore() + cost.value(cur, next);
-			
-			if (measure < next.getScore())
-			{
-				next.setScore(measure);
-				next.setPrevious(cur);
+				double estimate = current.getEstimate() + cost.value(current, next);
 				
-				if (queue.contains(next))
+				if (estimate < next.getEstimate())
 				{
-					queue.remove(next);		// In effect, decrease priority of node
-				}
+					next.setScore(estimate + heuristic.estimate(next, destination));
+					next.setEstimate(estimate);
+					next.setPrevious(current);
 
-				queue.add(next);
+					if (!openSet.contains(next))
+					{
+						openSet.add(next);
+					}
+				}
 			}
 		}
 		
 		return (AlgorithmState.CONTINUE);
+
 	}
 
 	@Override
 	public String toString()
 	{
-		return ("Dijkstra's Algorithm");
+		return ("A* Algorithm");
 	}
 
 	@Override
 	public void reset()
 	{
-		queue.clear();
-		queue.add(start);
+		openSet.clear();
+		openSet.add(start);
+
+		start.setScore(heuristic.estimate(start, destination));
+		start.setEstimate(0.0);
+		start.setPrevious(null);	
 	}
 
 	@Override

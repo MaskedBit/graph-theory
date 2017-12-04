@@ -29,7 +29,7 @@ public class TestGraph1 extends VisualGraph implements Graph
 	// DEBUG
 	private static final Color GRID_COLOR = new Color(191, 191, 191);
 	// DEBUG END
-	private static final VisualNode start = new VisualNode(2, 20, NodeCondition.START);
+	private static final VisualNode start = new VisualNode(2, 19, NodeCondition.START);
 	private static final VisualNode goal = new VisualNode(18, 3, NodeCondition.GOAL);
 
 	private final Map<NodeId, VisualNode> knownNodes = new HashMap<NodeId, VisualNode>();
@@ -39,22 +39,23 @@ public class TestGraph1 extends VisualGraph implements Graph
 		super(start, goal);
 
 		this.getBlockages().add(new Blockage(5, 6, 11, 3));
-		this.getBlockages().add(new Blockage(13, 9, 3, 6));
+		this.getBlockages().add(new Blockage(13, 9, 3, 5));
 		
 		knownNodes.put(getStart().getId(), getStart());
 		knownNodes.put(getGoal().getId(), getGoal());
 	}
 
 	@Override
-	public Dimension getSize()
+	public Rectangle getBounds()
 	{
-		return (new Dimension(((BOUNDARIES.width + 1) * getScale()), ((BOUNDARIES.height + 1) * getScale())));
+		return (new Rectangle(BOUNDARIES.x, (BOUNDARIES.width * getScale()),
+				BOUNDARIES.y, (BOUNDARIES.height * getScale())));
 	}
 
 	@Override
 	public Dimension getPreferredSize()
 	{
-		return (getSize());
+		return (new Dimension((BOUNDARIES.width * getScale()), (BOUNDARIES.height * getScale())));
 	}
 
 	public double distance(Node node1, Node node2)
@@ -67,6 +68,11 @@ public class TestGraph1 extends VisualGraph implements Graph
 		double answer = Math.sqrt((dX * dX) + (dY * dY));
 		
 		return (answer);
+	}
+
+	public double value(Node from, Node to)
+	{
+		return (distance(from, to));
 	}
 
 	public Iterable<Node> getNeighbors(Node node)
@@ -203,6 +209,10 @@ public class TestGraph1 extends VisualGraph implements Graph
 	public void reset()
 	{
 		knownNodes.clear();
+		getGoal().setPrevious(null);
+		knownNodes.put(getStart().getId(), getStart());
+		knownNodes.put(getGoal().getId(), getGoal());
+		repaint();
 	}
 
 }

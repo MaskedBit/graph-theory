@@ -24,12 +24,6 @@ public class DummyGraph extends VisualGraph
 	}
 
 	@Override
-	public Dimension getSize()
-	{
-		return (new Dimension(BOUNDARIES.width, BOUNDARIES.height));
-	}
-
-	@Override
 	public Dimension getPreferredSize()
 	{
 		return (getSize());
@@ -64,8 +58,13 @@ public class DummyGraph extends VisualGraph
 	@Override
 	public double distance(Node node1, Node node2)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return (1.0);
+	}
+
+	@Override
+	public double value(Node from, Node to)
+	{
+		return (distance(from, to));
 	}
 
 	@Override
@@ -79,6 +78,12 @@ public class DummyGraph extends VisualGraph
 	public void reset() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Rectangle getBounds()
+	{
+		return (BOUNDARIES);
 	}
 
 }

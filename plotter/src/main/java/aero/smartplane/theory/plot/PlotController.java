@@ -8,9 +8,12 @@ import javax.swing.Timer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import aero.smartplane.theory.astar.AStar;
 import aero.smartplane.theory.dijkstra.Dijkstra;
 import aero.smartplane.theory.graphs.Algorithm;
 import aero.smartplane.theory.graphs.AlgorithmState;
+import aero.smartplane.theory.graphs.Heuristic;
+import aero.smartplane.theory.graphs.Node;
 import aero.smartplane.theory.visual.TestGraph1;
 import aero.smartplane.theory.visual.VisualGraph;
 
@@ -36,7 +39,7 @@ public class PlotController implements ActionListener
 		this.plotter = plotter;
 		delay = 1000 / INITIAL_FPS;
 		timer = new Timer(delay, this);
-		algorithm = new Dijkstra(graph, graph.getStart(), graph.getGoal());
+		algorithm = new Dijkstra(graph, graph.getStart(), graph.getGoal(), graph);
 	}
 
 	public AlgorithmChoice getAlgorithmChoice() {
@@ -62,13 +65,26 @@ public class PlotController implements ActionListener
 		switch (algorithmChoice)
 		{
 		case A_STAR:
-			// TBD!!
+			algorithm = new AStar(graph, graph.getStart(), graph.getGoal(), graph, new Heuristic()
+			{
+
+				@Override
+				public double estimate(Node from, Node to)
+				{
+					return (graph.distance(from,  to));
+				}
+
+			});
+			break;
+
 		case DIJKSTRA:
 		default:
-			algorithm = new Dijkstra(graph, graph.getStart(), graph.getGoal());
+			algorithm = new Dijkstra(graph, graph.getStart(), graph.getGoal(), graph);
 			break;
 		}
-		
+
+		graph.reset();
+		plotter.newGraph(graph);
 		graph.repaint();
 	}
 
@@ -84,8 +100,8 @@ public class PlotController implements ActionListener
 		{
 			stop();
 			this.graph = graph;
-			plotter.newGraph(graph);
 			setAlgorithm(algorithmChoice);
+			plotter.newGraph(graph);
 			graph.repaint();
 		}
 	}
@@ -158,6 +174,7 @@ public class PlotController implements ActionListener
 
 		stop();
 		graph.reset();
+		algorithm.reset();
 	}
 
 	public void debugPrint()

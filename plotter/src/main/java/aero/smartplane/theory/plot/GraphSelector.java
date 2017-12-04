@@ -12,7 +12,7 @@ public class GraphSelector extends JComboBox<VisualGraph> implements ActionListe
 {
 	private static final long serialVersionUID = 1L;
 
-	private static final VisualGraph[] algorithms = { new DummyGraph(), new TestGraph1() };
+	private static final VisualGraph[] graphs = { new TestGraph1(), new DummyGraph() };
 
 	private PlotController controller;
 
@@ -25,7 +25,7 @@ public class GraphSelector extends JComboBox<VisualGraph> implements ActionListe
 
 	public static GraphSelector create(PlotController controller)
 	{
-		GraphSelector selector = new GraphSelector(controller, algorithms);
+		GraphSelector selector = new GraphSelector(controller, graphs);
 		
 		selector.addActionListener(selector);
 		

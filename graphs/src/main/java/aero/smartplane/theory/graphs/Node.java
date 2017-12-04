@@ -3,8 +3,10 @@ package aero.smartplane.theory.graphs;
 public interface Node
 {
 	NodeId getId();
-	double getDistance();
-	void setDistance(double dist);
+	double getScore();
+	void setScore(double score);
+	double getEstimate();
+	void setEstimate(double estimate);
 	Node getPrevious();
 	void setPrevious(Node prev);
 	NodeState getState();

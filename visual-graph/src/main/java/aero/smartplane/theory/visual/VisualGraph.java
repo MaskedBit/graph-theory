@@ -4,12 +4,13 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import aero.smartplane.theory.graphs.CostFunction;
 import aero.smartplane.theory.graphs.Graph;
 
-import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
-public abstract class VisualGraph extends JPanel implements Graph
+public abstract class VisualGraph extends JPanel implements Graph, CostFunction
 {
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +45,7 @@ public abstract class VisualGraph extends JPanel implements Graph
 		this.scale = scale;
 	}
 
-	public abstract Dimension getSize();
+	public abstract Rectangle getBounds();
 
 	public abstract void reset();
 
