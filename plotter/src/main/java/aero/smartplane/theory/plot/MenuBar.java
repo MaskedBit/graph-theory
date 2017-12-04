@@ -9,11 +9,11 @@ public class MenuBar extends JMenuBar
 {
 	private static final long serialVersionUID = 1L;
 
-	private PlotController controller;
+//	private PlotController controller;
 
 	private MenuBar(PlotController controller)
 	{
-		this.controller = controller;
+//		this.controller = controller;
 	}
 
 	public static MenuBar create(PlotController controller, int plotWidth)

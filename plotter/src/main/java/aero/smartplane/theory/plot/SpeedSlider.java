@@ -7,13 +7,8 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class SpeedSlider extends JSlider implements ChangeListener
 {
-	private static final Logger LOGGER = LogManager.getFormatterLogger(SpeedSlider.class);
-
 	private static final long serialVersionUID = 1L;
 
 	private PlotController controller;

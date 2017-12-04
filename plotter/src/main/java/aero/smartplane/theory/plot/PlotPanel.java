@@ -12,12 +12,12 @@ public class PlotPanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 
-	private PlotController controller;
+//	private PlotController controller;
 	private VisualGraph graph;
 
 	public PlotPanel(PlotController controller)
 	{
-		this.controller = controller;
+//		this.controller = controller;
 	}
 
 	public static PlotPanel create(PlotController controller, int plotWidth, int plotHeight)

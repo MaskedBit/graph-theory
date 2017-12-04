@@ -14,11 +14,11 @@ public class ControlsPanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 
-	private PlotController controller;
+//	private PlotController controller;
 
 	public ControlsPanel(PlotController controller)
 	{
-		this.controller = controller;
+//		this.controller = controller;
 	}
 
 	public static ControlsPanel create(PlotController controller, int plotWidth) throws IOException
